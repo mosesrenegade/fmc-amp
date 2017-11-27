@@ -1,14 +1,15 @@
+#/usr/bin/env python3
 import requests
 import datetime
+import json
+
+with open('amp.json', 'r') as f:
+    amp_config = json.load(f)
+
+client_id = amp_config['client_id']
+api_key = amp_config['api_key']
 
 start = str(datetime.datetime.now())[:-7]
-
-# 3rd Party API Client ID
-client_id = 'asdf1234qwer1234asdf'
-
-# API Key
-api_key = 'asdf1234-qwer-1234-asdf-1234asdf1234'
-
 
 vuln = '1107296279'
 indicator = vuln
@@ -16,7 +17,7 @@ url = 'https://{}:{}@api.amp.cisco.com/v1/events?event_type[]={}'.format(client_
 
 r = requests.get(url)
 
-query = r.json() 
+query = r.json()
 
 total_results = query['metadata']['results']['total']
 
@@ -34,7 +35,5 @@ for n in query['data']:
     file_sha256 = file['identity']['sha256']
 
     print(date,guid,hostname,file_name,file_sha256)
-    with open('vulns.csv','a') as f:
+    with open('vulns.csv', encoding='utf-8', mode='a') as f:
         f.write('{},{},{},{},{}\n'.format(date,guid,hostname,file_name,file_sha256))
-
-
