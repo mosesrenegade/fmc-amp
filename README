@@ -1,0 +1,12 @@
+In order to use this repo, use the following instructions:
+
+#1. Setup your venv:
+  > ~> virtualenv -p python3 venv
+  > ~> source ./venv/bin/activate
+  > ~> pip install -r requirements.txt
+
+#2. Setup your amp.json:
+  > ~> cp amp.json.orig amp.json
+  > ~> edit the client_id and api key accordingly.
+
+

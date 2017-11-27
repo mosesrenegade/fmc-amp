@@ -18,7 +18,7 @@ url = 'https://{}:{}@api.amp.cisco.com/v1/events?event_type[]={}'.format(client_
 r = requests.get(url)
 
 query = r.json()
-
+#print(query)
 total_results = query['metadata']['results']['total']
 
 with open('vulns.csv','w') as f:
@@ -33,7 +33,8 @@ for n in query['data']:
     file = n['file']
     file_name = file['file_name']
     file_sha256 = file['identity']['sha256']
-
-    print(date,guid,hostname,file_name,file_sha256)
+    i = n['vulnerabilities']
+    print(i)
+    #print(date,guid,hostname,file_name,file_sha256)
     with open('vulns.csv', encoding='utf-8', mode='a') as f:
         f.write('{},{},{},{},{}\n'.format(date,guid,hostname,file_name,file_sha256))
