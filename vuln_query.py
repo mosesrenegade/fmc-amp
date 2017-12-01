@@ -2,6 +2,7 @@
 import requests
 import datetime
 import json
+import pprint
 
 ######################
 # Setup Variables
@@ -15,6 +16,7 @@ with open('amp.json', 'r') as f:
 client_id = amp_config['client_id']
 api_key = amp_config['api_key']
 start = str(datetime.datetime.now())[:-7]
+#pquery = ''
 
 ######################
 # Let's get Vulns
@@ -33,17 +35,25 @@ def GetVulns():
     except requests.exceptions.RequestException as e:
         return "Error: {}".format(e)
 
+def PrettyPrint(pquery):
+    pp = pprint.PrettyPrinter(indent=4)
+    nice = pp.pprint(pquery)
+    return nice
 
 if __name__ == "__main__":
     query = GetVulns()
+
 
     event_types = {}
     for e_id in query["data"]:
         event_types[e_id["id"]] = e_id["id"]
 
     for key,value in event_types.items():
-        print("{}:{}".format(value,key))
+        print('yes')
+        #PrettyPrint("{}:{}".format(value,key))
 
+    with open('query-debug.csv', 'wt') as out:
+        json.dump(query, out, indent=4)
     #json_dict = {}
     #json_query = json.dumps(query, indent = 2)
     #json_load = json.loads(json_query)
